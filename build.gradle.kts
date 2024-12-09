@@ -19,9 +19,14 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+    compileOnly("org.projectlombok:lombok")
+
+    implementation("net.logstash.logback:logstash-logback-encoder:7.4")
 }
 
 tasks.withType<Test> {

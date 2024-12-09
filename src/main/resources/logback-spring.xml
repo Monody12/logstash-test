@@ -3,30 +3,28 @@
 <configuration>
     <!--获取Spring应用名称-->
     <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <springProperty scope="context" name="logstashUrl" source="logstash.url"/>
     <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-    <!-- 日志在工程中的输出位置 -->
-    <property name="LOG_FILE" value="${BUILD_FOLDER:-build}/${appName}"/>
-
     <!-- 控制台的日志输出样式 -->
-    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>
+<!--    <property name="CONSOLE_LOG_PATTERN" value="%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p}) %clr(${PID:- }){magenta} %clr(-&#45;&#45;){faint} %clr([%15.15t]){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}}"/>-->
 
     <!-- 控制台输出 -->
-    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
-        </filter>
-        <!-- 日志输出编码 -->
-        <encoder>
-            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
-            <charset>utf8</charset>
-        </encoder>
-    </appender>
+<!--    <appender name="console" class="ch.qos.logback.core.ConsoleAppender">-->
+<!--        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">-->
+<!--            <level>INFO</level>-->
+<!--        </filter>-->
+<!--        &lt;!&ndash; 日志输出编码 &ndash;&gt;-->
+<!--        <encoder>-->
+<!--            <pattern>${CONSOLE_LOG_PATTERN}</pattern>-->
+<!--            <charset>utf8</charset>-->
+<!--        </encoder>-->
+<!--    </appender>-->
 
     <!--logstash配置-->
     <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-        <destination>38.207.179.98:5000</destination>
+        <destination>${logstashUrl}</destination>
         <!-- 日志输出编码 -->
         <encoder charset="UTF-8" class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
             <providers>
@@ -54,7 +52,7 @@
 
     <root level="INFO">
         <appender-ref ref="LOGSTASH"/>
-        <appender-ref ref="CONSOLE"/>
+<!--        <appender-ref ref="CONSOLE"/>-->
     </root>
 
 </configuration>
