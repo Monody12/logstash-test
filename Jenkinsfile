@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Git') {
             steps {
-                git branch: 'main', url: 'https://github.com/Monody12/logstash-test.git'
+                git branch: 'test', url: 'https://github.com/Monody12/logstash-test.git'
             }
         }
         stage('Build') {
