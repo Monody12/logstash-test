@@ -45,7 +45,6 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-
                     sh "kubectl set image deployment/${env.KUBE_DEPLOYMENT} -n ${env.KUBE_NAMESPACE} ${env.KUBE_DEPLOYMENT}=${env.IMAGE_TAG}"
                     sh "kubectl rollout status deployment/${env.KUBE_DEPLOYMENT} -n ${env.KUBE_NAMESPACE}"
                 }
