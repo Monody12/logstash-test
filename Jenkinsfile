@@ -6,10 +6,10 @@ pipeline {
     }
     environment {
         HARBOR_URL = 'harbor.dluserver.cn'
-        HARBOR_PROJECT = 'logstash-test'
-        IMAGE_NAME = 'logstash-test'
-        KUBE_NAMESPACE = 'logstash-test'
-        KUBE_DEPLOYMENT = 'logstash-test'
+        HARBOR_PROJECT = 'logstash-test-test'
+        IMAGE_NAME = 'logstash-test-test'
+        KUBE_NAMESPACE = 'logstash-test-test'
+        KUBE_DEPLOYMENT = 'logstash-test-test'
     }
     stages {
         stage('Test ENV') {
@@ -45,7 +45,14 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    sh "kubectl set image deployment/${env.KUBE_DEPLOYMENT} -n ${env.KUBE_NAMESPACE} ${env.KUBE_DEPLOYMENT}=${env.IMAGE_TAG}"
+                    // 动态更新 YAML 文件的镜像字段
+                    sh "sed -i 's|image: .*|image: ${env.IMAGE_TAG}|g' ./kube-config/springboot-deployment.yaml"
+
+                    // 应用 YAML 文件
+                    sh "kubectl apply -f ./kube-config/springboot-deployment.yaml -n ${env.KUBE_NAMESPACE}"
+                    sh "kubectl apply -f ./kube-config/springboot-ingress.yaml -n ${env.KUBE_NAMESPACE}"
+
+                    // 检查状态
                     sh "kubectl rollout status deployment/${env.KUBE_DEPLOYMENT} -n ${env.KUBE_NAMESPACE}"
                 }
             }
