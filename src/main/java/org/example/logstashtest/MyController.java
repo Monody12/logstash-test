@@ -16,7 +16,7 @@ public class MyController {
     public String hello() {
         var now = LocalDateTime.now();
         logger.info("{} Hello", now);
-        return now + "Hello World  9996 - TEST";
+        return now + "Hello World  99966 - TEST";
     }
 
 }
