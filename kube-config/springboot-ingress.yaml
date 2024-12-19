@@ -14,6 +14,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: logstash-test
+                name: logstash-test-test
                 port:
                   number: 8080
