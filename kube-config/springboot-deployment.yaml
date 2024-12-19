@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash-test
+  namespace: logstash-test
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: logstash-test
+  template:
+    metadata:
+      labels:
+        app: logstash-test
+    spec:
+      containers:
+        - name: logstash-test
+          image: harbor.dluserver.cn/logstash-test/logstash-test:17
+          ports:
+            - containerPort: 8080
+          env:
+            - name: JAVA_OPTS
+              value: "-Xms256m -Xmx1g"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: logstash-test
+  namespace: logstash-test
+spec:
+  type: ClusterIP
+  selector:
+    app: logstash-test
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
